@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="9dp"
+        card_view:cardCornerRadius="3dp"
+        card_view:cardElevation="0.01dp">
+
+        <RelativeLayout
+            android:id="@+id/locationLayout"
+            android:layout_width="150dp"
+            android:layout_height="150dp">
+
+            <ImageView
+                android:id="@+id/imgLocation"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/lblLocation"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:paddingRight="2dp"
+                style="@style/TextStyleWhiteWithShadow"
+                android:textAlignment="center"
+                android:text="Eskişehir"  />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
