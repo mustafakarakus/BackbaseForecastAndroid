@@ -6,7 +6,7 @@ public class Keys {
     public static final String BASE_URL = "http://api.openweathermap.org/data/2.5";
     public static final String TODAYS_FORECAST_URL = String.format("%s/weather?appid=%s", BASE_URL, API_KEY);
     public static final String FIVE_DAYS_FORECAST_URL = String.format("%s/forecast?appid=%s", BASE_URL, API_KEY);
-    public static final String HELP_URL = "https://github.com/mustafakarakus/backbase/blob/master/README.md";
+    public static final String HELP_URL = "https://github.com/mustafakarakus/BackbaseForecastAndroid#backbase-forecast---android";
 
     public static final String BOOKMARK_LIST_KEY = "_UserBookmarks";
     public static final String SHARED_PREFERENCES = "_BackbasePreferences" ;
