@@ -18,9 +18,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Vibrator;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -47,15 +49,22 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.w3c.dom.Text;
 
@@ -82,19 +91,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init(savedInstanceState);
-      /*  provider.getTodaysForecast(39.9111667, 32.91429, new Callback() {
-            @Override
-            public void onSuccess(Object result) {
-                Object a = result;
-            }
-        });*/
-       /* provider.getFiveDaysForecast(39.9111667, 32.91429, new Callback() {
-            @Override
-            public void onSuccess(Object result) {
-                Object a = result;
-            }
-        });*/
-
     }
 
     private void init(Bundle savedInstanceState) {
@@ -122,12 +118,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 settings.setUseWideViewPort(true);
                 webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
                 webView.loadUrl(Keys.HELP_URL);
-                webView.setWebViewClient(new WebViewClient(){
+                webView.setWebViewClient(new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
                         view.loadUrl(url);
                         return true;
                     }
+
                     @Override
                     public void onPageFinished(WebView view, final String url) {
                         view.scrollTo(0, 500);
@@ -177,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 swChangeUnit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String unit =  swChangeUnit.isChecked() ? getResources().getString(R.string.metric) : getResources().getString(R.string.imperial);
+                        String unit = swChangeUnit.isChecked() ? getResources().getString(R.string.metric) : getResources().getString(R.string.imperial);
                         UserDefaults.setUnit(getApplicationContext(), unit);
                     }
                 });
@@ -211,7 +208,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         BookmarkModel bookmark = bookmarks.get(position);
-                        getForecastAndShow(bookmark.getLatitude(), bookmark.getLongitude(), "",true,null);
+                        getForecastAndShow(bookmark.getLatitude(), bookmark.getLongitude(), "", true, null);
+                        LatLng ny = new LatLng(bookmark.getLatitude(), bookmark.getLongitude());
+                        gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(ny, 12.0f));
                     }
                 });
 
@@ -232,9 +231,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
                         LocationModel selectedLocation = knownLocations.get(position);
-                        getForecastAndShow(selectedLocation.getLatitude(),selectedLocation.getLongitude(),selectedLocation.getName(),false,null);
+                        getForecastAndShow(selectedLocation.getLatitude(), selectedLocation.getLongitude(), selectedLocation.getName(), false, null);
                         LatLng ny = new LatLng(selectedLocation.getLatitude(), selectedLocation.getLongitude());
-                        gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(ny,12.0f));
+                        gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(ny, 12.0f));
                     }
                 });
                 lstLocations.setAdapter(adapter);
@@ -266,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     if (forecastResult != null)
                                         forecastModel = (ForecastModel) forecastResult;
 
-                                    showWeatherDetail(weatherModel, forecastModel,title,showRemove);
+                                    showWeatherDetail(weatherModel, forecastModel, title, showRemove);
                                     if (callback != null)
                                         callback.onSuccess(weatherModel);
                                 }
@@ -293,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private void showWeatherDetail(final WeatherModel weatherModel, ForecastModel forecastModel,String title, Boolean showRemove) {
+    private void showWeatherDetail(final WeatherModel weatherModel, ForecastModel forecastModel, String title, Boolean showRemove) {
         final View bookmarksLayout = getLayoutInflater().inflate(R.layout.weather_detail_layout, null);
         TextView txtTemperature = bookmarksLayout.findViewById(R.id.txtTemperature);
         TextView txtMaxTemperature = bookmarksLayout.findViewById(R.id.txtMaxTemperature);
@@ -303,9 +302,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         TextView txtDescription = bookmarksLayout.findViewById(R.id.txtDescription);
         TextView txtInformation = bookmarksLayout.findViewById(R.id.txtInformation);
         ImageButton btnRemoveBookmark = bookmarksLayout.findViewById(R.id.btnRemoveBookmark);
-        if(showRemove){
+        if (showRemove) {
             btnRemoveBookmark.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             btnRemoveBookmark.setVisibility(View.GONE);
         }
         RecyclerView lstFiveDaysForecast = bookmarksLayout.findViewById(R.id.lstFiveDaysForecast);
@@ -340,15 +339,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
         ImageView imgWeather = bookmarksLayout.findViewById(R.id.imgWeather);
-        String windUnit=UserDefaults.getUnit(getApplicationContext()).equals("metric") ?  "m/s" : "mi/h";
-        String temperatureUnit = UserDefaults.getUnit(getApplicationContext()).equals("metric") ?  "C" : "F";
+        String windUnit = UserDefaults.getUnit(getApplicationContext()).equals("metric") ? "m/s" : "mi/h";
+        String temperatureUnit = UserDefaults.getUnit(getApplicationContext()).equals("metric") ? "C" : "F";
         // TODO refactor units.
         txtTemperature.setText(String.format("%.0f", weatherModel.getMain().getTemp()));
         txtTemperatureUnit.setText(temperatureUnit);
         txtMinTemperature.setText(String.format("min: %.0f", weatherModel.getMain().getTempMin()));
         txtMaxTemperature.setText(String.format("max: %.0f", weatherModel.getMain().getTempMax()));
-        String name =  weatherModel.getName();
-        if(title.length()>0){
+        String name = weatherModel.getName();
+        if (title.length() > 0) {
             name = title;
         }
         txtName.setText(name);
@@ -415,7 +414,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gmap = googleMap;
-        refreshExistingBookmarkPins();
         gmap.setOnMapLongClickListener(this);
         gmap.setOnMarkerClickListener(this);
         gmap.setMinZoomPreference(6);
@@ -432,14 +430,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             gmap.setMyLocationEnabled(true);
         }
-        LatLng ny = new LatLng(38.95682, 35.174414);
-        gmap.moveCamera(CameraUpdateFactory.newLatLng(ny));
+        refreshExistingBookmarkPins();
+        FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
+        client.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                        gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 14.0f));
+                        getForecastAndShow(location.getLatitude(),location.getLongitude(),"",false,null);
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
 
+                    }
+                });
     }
+
 
     @Override
     public void onMapLongClick(final LatLng latLng) {
-        getForecastAndShow(latLng.latitude, latLng.longitude, "",true,new Callback() {
+        getForecastAndShow(latLng.latitude, latLng.longitude, "", true, new Callback() {
             @Override
             public void onSuccess(Object result) {
                 if (result != null) {
@@ -468,7 +481,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        getForecastAndShow(marker.getPosition().latitude, marker.getPosition().longitude,"",true, null);
+        getForecastAndShow(marker.getPosition().latitude, marker.getPosition().longitude, "", true, null);
         return true;
     }
 
