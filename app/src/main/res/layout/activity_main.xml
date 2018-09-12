@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="android.apps.forecast.backbase.com.backbaseforecast.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageButton
+            android:id="@+id/btnHelp"
+            android:layout_width="@dimen/mapButtonSize"
+            android:layout_height="@dimen/mapButtonSize"
+            android:layout_marginTop="@dimen/mapButtonMargin"
+            android:layout_marginRight="@dimen/mapButtonMargin"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/map_button_selector"
+            android:src="@mipmap/question"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/mapButtonPadding"/>
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_marginRight="@dimen/mapButtonMargin"
+            android:layout_width="@dimen/mapButtonSize"
+            android:layout_height="@dimen/mapButtonSize"
+            android:layout_below="@+id/btnHelp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/map_button_selector"
+            android:layout_marginTop="@dimen/mapButtonMargin"
+            android:src="@mipmap/settings"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/mapButtonPadding"/>
+
+        <ImageButton
+            android:id="@+id/btnBookmarks"
+            android:layout_width="@dimen/mapButtonSize"
+            android:layout_height="@dimen/mapButtonSize"
+            android:layout_marginRight="@dimen/mapButtonMargin"
+            android:layout_alignParentRight="true"
+            android:layout_above="@+id/btnLocations"
+            android:background="@drawable/map_button_selector"
+            android:src="@mipmap/star"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/mapButtonPadding"/>
+
+        <ImageButton
+            android:id="@+id/btnLocations"
+            android:layout_width="@dimen/mapButtonSize"
+            android:layout_height="@dimen/mapButtonSize"
+            android:layout_marginRight="@dimen/mapButtonMargin"
+            android:layout_marginBottom="@dimen/mapButtonMargin"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/mapButtonMargin"
+            android:background="@drawable/map_button_selector"
+            android:src="@mipmap/place"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/mapButtonPadding"/>
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
