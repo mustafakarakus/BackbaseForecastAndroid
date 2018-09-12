@@ -8,5 +8,12 @@
     <string name="help">Help</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="locations">Locations</string>
+    <string name="noBookmarks">No bookmarks yet.To add a bookmark, please long press to map for one second</string>
+    <string name="errorTitle">No bookmarks yet.To add a bookmark, please long press to map for one second</string>
+    <string name="errorOccured">Please try again later</string>
+    <string name="areYouSure">Confirm</string>
+    <string name="areYouSureRemoveBookmark">Are you sure to remove bookmark?</string>
+    <string name="resetBookmarks">Are you sure to remove all bookmarks?</string>
+    <string name="bookmarkDeletedSuccessfully">Bookmark deleted successfully</string>
 </resources>
 

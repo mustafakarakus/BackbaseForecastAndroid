@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,10 +30,22 @@ public class UserDefaults {
     public static List<BookmarkModel> getBookmarks(Context context) {
         String strBookmarks = getGson(context, Keys.BOOKMARK_LIST_KEY);
         Type type = new TypeToken<List<BookmarkModel>>() { }.getType();
-        return gson.fromJson(strBookmarks, type);
+        List<BookmarkModel> bookmarks = gson.fromJson(strBookmarks, type);
+        return bookmarks != null ?  bookmarks : new ArrayList<BookmarkModel>();
     }
 
     public static void setBookmarks(Context context, List<BookmarkModel> Bookmarks) {
         setGson(context, Keys.BOOKMARK_LIST_KEY, gson.toJson(Bookmarks));
+    }
+
+    public static void removeBookmark(Integer id,Context context) {
+        List<BookmarkModel> bookmarks =  getBookmarks(context);
+        for (BookmarkModel bookmark:bookmarks) {
+            if(bookmark.getId().equals(id)){
+              bookmarks.remove(bookmark);
+              break;
+            }
+        }
+        setBookmarks(context,bookmarks);
     }
 }

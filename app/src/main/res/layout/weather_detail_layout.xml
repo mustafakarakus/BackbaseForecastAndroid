@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="150dp"
     android:background="@color/white">
 
     <RelativeLayout
@@ -29,6 +29,7 @@
                     android:orientation="horizontal"
                     android:layout_weight="2">
                     <TextView
+                        android:id="@+id/txtTemperature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="50sp"
@@ -40,6 +41,7 @@
                         android:textSize="20sp"
                         android:text="o"/>
                     <TextView
+                        android:id="@+id/txtTemperatureUnit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="50sp"
@@ -52,6 +54,7 @@
                     android:orientation="horizontal"
                     android:layout_weight="1">
                     <TextView
+                        android:id="@+id/txtMinTemperature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
@@ -64,6 +67,7 @@
                         android:textSize="9sp"
                         android:text="o"/>
                     <TextView
+                        android:id="@+id/txtMaxTemperature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
@@ -88,22 +92,26 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
+                        android:id="@+id/txtName"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:textSize="20sp"
                         android:text="Ankara"/>
                     <ImageView
-                        android:layout_width="30dp"
+                        android:id="@+id/imgWeather"
+                        android:layout_width="60dp"
                         android:layout_height="30dp"
                         android:src="@drawable/w01d"
                         android:scaleType="center"/>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/txtDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="11sp"
                     android:text="scattered clouds"/>
                 <TextView
+                    android:id="@+id/txtInformation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -150,6 +158,6 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lstFiveDaysForecast"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 </FrameLayout>

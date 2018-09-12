@@ -1,8 +1,5 @@
 package android.apps.forecast.backbase.com.backbaseforecast.base;
 
-/**
- * Created by Admin on 11.09.2018.
- */
 
 public class Keys {
     public static final String API_KEY = "c6e381d8c7ff98f0fee43775817cf6ad";

@@ -1,18 +1,12 @@
 package android.apps.forecast.backbase.com.backbaseforecast.helpers;
 
-import android.net.Uri;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-/**
- * Created by Admin on 11.09.2018.
- */
 
 public final class NetworkUtils {
 
