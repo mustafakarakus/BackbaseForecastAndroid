@@ -3,8 +3,10 @@ package android.apps.forecast.backbase.com.backbaseforecast.providers;
 import android.apps.forecast.backbase.com.backbaseforecast.base.Keys;
 import android.apps.forecast.backbase.com.backbaseforecast.helpers.Callback;
 import android.apps.forecast.backbase.com.backbaseforecast.helpers.NetworkUtils;
+import android.apps.forecast.backbase.com.backbaseforecast.helpers.UserDefaults;
 import android.apps.forecast.backbase.com.backbaseforecast.models.ForecastModel;
 import android.apps.forecast.backbase.com.backbaseforecast.models.WeatherModel;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
@@ -19,8 +21,13 @@ import java.net.URL;
 
 public class ForecastProvider {
 
+    private Context context;
+    public ForecastProvider(Context context){
+        this.context = context;
+    }
+
     public void getTodaysForecast(double latitude, double longitude, final Callback callback) {
-        final String url = String.format("%s&lat=%s&lon=%s", Keys.TODAYS_FORECAST_URL,latitude,longitude);
+        final String url = String.format("%s&lat=%s&lon=%s&units=%s", Keys.TODAYS_FORECAST_URL,latitude,longitude, UserDefaults.getUnit(context));
 
         AsyncTask.execute(new Runnable() {
             @Override
@@ -37,7 +44,7 @@ public class ForecastProvider {
         });
     }
     public void getFiveDaysForecast(double latitude, double longitude, final Callback callback) {
-        final String url = String.format("%s&lat=%s&lon=%s", Keys.FIVE_DAYS_FORECAST_URL,latitude,longitude);
+        final String url = String.format("%s&lat=%s&lon=%s&units=%s", Keys.FIVE_DAYS_FORECAST_URL,latitude,longitude, UserDefaults.getUnit(context));
 
         AsyncTask.execute(new Runnable() {
             @Override

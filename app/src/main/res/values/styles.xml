@@ -16,6 +16,10 @@
         <item name="android:textColor">@color/darkGray</item>
         <item name="android:textSize">20sp</item>
     </style>
+    <style name="SettingsSwitchText">
+        <item name="android:textColor">@color/darkGray</item>
+        <item name="android:textSize">12sp</item>
+    </style>
     <style name="TextStylePrimaryColored">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">20sp</item>

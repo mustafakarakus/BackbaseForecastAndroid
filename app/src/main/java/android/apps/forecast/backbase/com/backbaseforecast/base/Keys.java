@@ -9,6 +9,6 @@ public class Keys {
     public static final String HELP_URL = "https://github.com/mustafakarakus/backbase/blob/master/README.md";
 
     public static final String BOOKMARK_LIST_KEY = "_UserBookmarks";
-    public static final String SHARED_PREFERENCES = "BackbasePreferences" ;
-
+    public static final String SHARED_PREFERENCES = "_BackbasePreferences" ;
+    public static final String UNIT_KEY = "_SelectedUnit";
 }

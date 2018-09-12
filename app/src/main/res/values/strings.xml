@@ -15,5 +15,8 @@
     <string name="areYouSureRemoveBookmark">Are you sure to remove bookmark?</string>
     <string name="resetBookmarks">Are you sure to remove all bookmarks?</string>
     <string name="bookmarkDeletedSuccessfully">Bookmark deleted successfully</string>
+    <string name="bookmarksResetSuccessfully">All bookmarks deleted successfully</string>
+
+
 </resources>
 

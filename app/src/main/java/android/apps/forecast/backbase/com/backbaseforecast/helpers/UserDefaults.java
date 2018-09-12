@@ -48,4 +48,15 @@ public class UserDefaults {
         }
         setBookmarks(context,bookmarks);
     }
+    public static String getUnit(Context context) {
+        String unit = getGson(context, Keys.UNIT_KEY);
+        if(unit.length() == 0){
+            return "metric";
+        }
+        return unit;
+    }
+
+    public static void setUnit(Context context, String unit) {
+        setGson(context, Keys.UNIT_KEY, unit);
+    }
 }

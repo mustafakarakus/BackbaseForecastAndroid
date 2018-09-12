@@ -1,6 +1,7 @@
 package android.apps.forecast.backbase.com.backbaseforecast.adapters;
 
 import android.apps.forecast.backbase.com.backbaseforecast.R;
+import android.apps.forecast.backbase.com.backbaseforecast.helpers.UserDefaults;
 import android.apps.forecast.backbase.com.backbaseforecast.models.ForecastModel;
 import android.apps.forecast.backbase.com.backbaseforecast.models.apiObjects.List;
 import android.content.Context;
@@ -38,8 +39,9 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         java.util.List<List> forecastList = forecastModel.getList();
         List forecastData = forecastList.get(i);
-        String windUnit="m/s";
-        String temperatureUnit = "C";
+        String windUnit=UserDefaults.getUnit(context).equals("metric") ?  "m/s" : "mi/h";
+        String temperatureUnit = UserDefaults.getUnit(context).equals("metric") ?  "C" : "F";
+        // TODO refactor units.
         try {
             Date forecastDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(forecastData.getDtTxt());
             String dateDescription =  new SimpleDateFormat("EEE HH:mm").format(forecastDate);
