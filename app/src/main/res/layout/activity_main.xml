@@ -26,6 +26,7 @@
             android:background="@drawable/map_button_selector"
             android:src="@mipmap/question"
             android:scaleType="fitCenter"
+            android:elevation="5dp"
             android:padding="@dimen/mapButtonPadding"/>
 
         <ImageButton
@@ -39,6 +40,7 @@
             android:layout_marginTop="@dimen/mapButtonMargin"
             android:src="@mipmap/settings"
             android:scaleType="fitCenter"
+            android:elevation="5dp"
             android:padding="@dimen/mapButtonPadding"/>
 
         <ImageButton
@@ -51,6 +53,7 @@
             android:background="@drawable/map_button_selector"
             android:src="@mipmap/star"
             android:scaleType="fitCenter"
+            android:elevation="5dp"
             android:padding="@dimen/mapButtonPadding"/>
 
         <ImageButton
@@ -65,6 +68,7 @@
             android:background="@drawable/map_button_selector"
             android:src="@mipmap/place"
             android:scaleType="fitCenter"
+            android:elevation="5dp"
             android:padding="@dimen/mapButtonPadding"/>
 
     </RelativeLayout>

@@ -23,7 +23,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -42,6 +44,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -95,6 +98,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void init(Bundle savedInstanceState) {
         bottomSheet = new BottomSheetDialog(MainActivity.this);
+        bottomSheet.setOnShowListener(new DialogInterface.OnShowListener() {
+            //Orientation changes
+            @Override
+            public void onShow(DialogInterface dialog) {
+                BottomSheetDialog d = (BottomSheetDialog) dialog;
+                FrameLayout bottomSheet = d.findViewById(R.id.design_bottom_sheet);
+                CoordinatorLayout coordinatorLayout = (CoordinatorLayout) bottomSheet.getParent();
+                BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+                bottomSheetBehavior.setPeekHeight(bottomSheet.getHeight());
+                coordinatorLayout.getParent().requestLayout();
+            }
+        });
         provider = new ForecastProvider(getApplicationContext());
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
@@ -136,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         bottomSheet.dismiss();
                     }
                 });
+
                 bottomSheet.setCancelable(false);
                 bottomSheet.setContentView(helpLayout);
                 bottomSheet.show();

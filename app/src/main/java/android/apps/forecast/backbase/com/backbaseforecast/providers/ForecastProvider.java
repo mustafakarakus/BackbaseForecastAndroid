@@ -18,14 +18,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Created by Admin on 11.09.2018.
- */
-
 public class ForecastProvider {
 
     private Context context;
+    Gson gson = new Gson();
     public ForecastProvider(Context context){
         this.context = context;
     }
@@ -37,8 +33,7 @@ public class ForecastProvider {
             @Override
             public void run() {
                 try {
-                    String result =   NetworkUtils.getResponseFromHttpUrl(new URL(url));
-                    Gson gson = new Gson();
+                    String result = NetworkUtils.getResponseFromHttpUrl(new URL(url));
                     WeatherModel weatherModel = gson.fromJson(result, WeatherModel.class);
                     callback.onSuccess(weatherModel);
                 } catch (IOException e) {
@@ -54,8 +49,7 @@ public class ForecastProvider {
             @Override
             public void run() {
                 try {
-                    String result =   NetworkUtils.getResponseFromHttpUrl(new URL(url));
-                    Gson gson = new Gson();
+                    String result = NetworkUtils.getResponseFromHttpUrl(new URL(url));
                     ForecastModel forecastModel = gson.fromJson(result, ForecastModel.class);
                     callback.onSuccess(forecastModel);
                 } catch (IOException e) {
